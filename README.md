@@ -10,4 +10,5 @@ Let n be the number of individuals. Define "traits" as an n by k PyTorch tensor 
 from shared import cheapHeritability
 H = cheapHeritability(traits, groups, envirements)
 ```
+Specifically, if groups represent clones, this directly gives the broad-sense heritability. If groups have genetic relatedness Gamma, then narrow-sense heritability is H / Gamma. 
 
