@@ -1424,6 +1424,87 @@ def maxWaveMethod(X, synthUsed, names, envirement, trainTest2):
 
 
 
+def trainModel(model, X, names, envirement, trainTest2, modelName, Niter = 10000, doPrint=True, regScale=1e-8, learningRate=1e-4, NphenStart=0, Nphen=1,  noiseLevel=0.1):
+
+    
+
+    X = torch.tensor(X).float()
+
+
+    numWavelengths = X.shape[1]
+    
+    argTrain = np.argwhere(trainTest2 == 0)[:, 0]
+
+
+    for phenNow in range(NphenStart, Nphen):
+
+        print ('X shape', X.shape)
+
+
+        if phenNow > 0:
+            subset1 = np.arange(phenNow)
+
+            Y_background = model(X, subset1)
+            Y_background = Y_background.detach()
+            Y_background = normalizeIndependent(Y_background)
+
+
+        else:
+            Y_background = torch.zeros((X.shape[0]), 0)
+
+        subset_phen = np.zeros(1, dtype=int) + phenNow
+
+        optimizer = torch.optim.RMSprop(model.parameters(), lr = learningRate)
+        
+
+        for a in range(Niter):
+            
+            X_train = X[trainTest2 == 0]
+            
+            #rand1 = torch.randn(X_train.shape) * noiseLevel
+            rand1 = torch.rand(size=X_train.shape) * noiseLevel
+            X_train = X_train + rand1
+        
+            
+            Y = model(X_train, subset_phen)
+
+            Y_abs = torch.mean(torch.abs(Y -  torch.mean(Y, axis=0).reshape((1, -1))   ))
+
+            Y = removeIndependence(Y, Y_background[trainTest2 == 0])
+
+            Y = normalizeIndependent(Y, cutOff=2) #Include for now
+
+            
+            heritability_now = cheapHeritability(Y, names[trainTest2 == 0], envirement[trainTest2 == 0])#, device=mps_device )
+            loss = -1 * torch.mean(heritability_now)
+            
+            if a % 100 == 0:
+                
+                print ('iter:', a)
+
+                with torch.no_grad():
+                    Y = model(X, subset_phen)
+                    Y = removeIndependence(Y, Y_background)
+
+                    Y = normalizeIndependent(Y, cutOff=2) #Include for now
+
+                    heritability_train = cheapHeritability(Y[trainTest2 == 0], names[trainTest2 == 0], envirement[trainTest2 == 0] )
+                    if 1 in trainTest2:
+                        heritability_test = cheapHeritability(Y[trainTest2 == 1], names[trainTest2 == 1], envirement[trainTest2 == 1] )
+                
+
+                print ('subset_phen', subset_phen)
+                print (heritability_train.data.numpy())
+                if 1 in trainTest2:
+                    print (heritability_test.data.numpy())
+
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            if a % 10 == 0:
+                torch.save(model, modelName)
 
 
 
