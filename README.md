@@ -2,7 +2,7 @@
 H2Opt: A novel self-supervised algorithm to mine high-throughput phenotyping data for genetically-driven traits
 
 <p align="center">
-  <img width="1000" height="220" src="./overview.png">
+  <img width="400" height="220" src="./overview.png">
 </p>
 
 ## Running H2Opt
