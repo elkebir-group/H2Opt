@@ -28,10 +28,11 @@ Below is a full example of training a linear model to extract 10 synthetic trait
 import numpy as np
 from h2opt import loadnpz, trainModel, multiConv, simpleModel
 
-X = loadnpz('./data/examples/measurements.npz')
+X = np.concatenate((loadnpz('./data/examples/X_file1.npz'), loadnpz('./data/examples/X_file2.npz')), axis=0)
 genotype = loadnpz('./data/examples/genotypes.npz')
 envirement = loadnpz('./data/examples/envirement.npz')
 trainTest = np.zeros(genotype.shape[0], dtype=int)
+
 Nphen = 10
 model = multiConv(Nphen, [X.shape[1], 1], simpleModel)
 
