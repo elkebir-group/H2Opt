@@ -31,6 +31,7 @@ X_example = torch.tensor(X[:, :10]).float()
 
 herit = cheapHeritability(X_example, genotype, envirement)
 ```
+The output herit is the tensor of the 10 heritability values tensor([0.0530, 0.0322, 0.0545, 0.0715, 0.0774, 0.0755, 0.0564, 0.0422, 0.0479, 0.0503]). 
 As a minor aside, the measurement data X is split into two files due to GitHub file size limits. 
 
 ### Optimizing heritability 
@@ -59,6 +60,8 @@ model = multiConv(Nphen, [X.shape[1], 1], simpleModel)
 
 trainModel(model, X, genotype, envirement, trainTest, './model.pt', Niter=10000, doPrint=True, Nphen=Nphen, learningRate=1e-5, noiseLevel=0.005)
 ```
+
+This code results in the final model being trained and saved in ./model.pt. 
 
 
 
