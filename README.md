@@ -23,6 +23,20 @@ Additional optional parameters include the following. ``Nphen`` is the number of
 from shared import trainModel
 trainModel(model, HTP, groups, envirement, trainTest, modelFile, Nphen=Nphen, learningRate=learningRate, noiseLevel=noiseLevel)
 ```
+Below is a full example of training a linear model to extract 10 synthetic traits on our sorghum hyperspectral measurement dataset. 
+```python
+import numpy as np
+from h2opt import loadnpz, trainModel, multiConv, simpleModel
+
+X = loadnpz('./data/examples/measurements.npz')
+genotype = loadnpz('./data/examples/genotypes.npz')
+envirement = loadnpz('./data/examples/envirement.npz')
+trainTest = np.zeros(genotype.shape[0], dtype=int)
+Nphen = 10
+model = multiConv(Nphen, [X.shape[1], 1], simpleModel)
+
+trainModel(model, X, genotype, envirement, trainTest, './model.pt', Niter=10000, doPrint=True, Nphen=Nphen, learningRate=1e-5, noiseLevel=0.005)
+```
 
 
 
