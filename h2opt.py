@@ -829,6 +829,10 @@ def cheapHeritability(Y, names, envirement, returnVariance=False, doMod=False):
 
 
 
+def ANOVAHeritability(Y, names, envirement, returnVariance=False, doMod=False):
+    return cheapHeritability(Y, names, envirement, returnVariance=returnVariance, doMod=doMod)
+
+
 
 def cheapHeritability_related(Y, names, envirement, returnVariance=False):
 
