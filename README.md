@@ -67,5 +67,14 @@ This code results in the final model being trained and saved as a PyTorch model 
 
 
 
+### Generating simulated hyperspectral measurements 
 
+To simulate hyperspectral measurements embedding latent ground truth measurements, one can apply "encodeValues" to ones latent traits "latentTraits". Below is an example using latent traits from our paper (simulated with simplePHENOTYPES). 
+```python
+
+import numpy as np
+from h2opt import loadnpz, encodeValues
+latentTraits = loadnpz('./data/examples/simulatedLatentTraits.npz')
+simulatedMeasurements = encodeValues(latentTraits)
+```
 
