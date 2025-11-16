@@ -69,7 +69,7 @@ This code results in the final model being trained and saved as a PyTorch model 
 
 ### Generating simulated hyperspectral measurements 
 
-Let "modelFile" be the location of the autoencoder being used, with "modelFile = './data/examples/autoencoder.pt'" being used for our pretrained autoencoder. Let "latentTraits" be the number of individuals by number of traits array of traits one wants to embed in hyperspectral measurements. The number of traits in "latentTraits" should be 5 (including any random traits) if one uses "modelFile = './data/examples/autoencoder.pt'". Let "referenceMeasurements" be our reference set of hyperspectral measurements. Then, one can use "encodeValues" to encode hyperspectral measurements. Below is an example using the simulated latent traits (generated using simplePHENOTYPES) from our manuscript. 
+Let "modelFile" be the location of the autoencoder being used, with "modelFile = './data/examples/autoencoder.pt'" being used for our pretrained autoencoder. Let "latentTraits" be the array of traits one wants to embed in hyperspectral measurements. The number of traits in "latentTraits" should be 5 (including any random traits) if one uses "modelFile = './data/examples/autoencoder.pt'". Let "referenceMeasurements" be our reference set of hyperspectral measurements. Then, one can use "encodeValues" to encode hyperspectral measurements. Below is an example using the simulated latent traits (generated using simplePHENOTYPES) from our manuscript. 
 ```python
 import numpy as np
 from h2opt import loadnpz, encodeValues
