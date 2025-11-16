@@ -63,7 +63,7 @@ model = multiConv(Nphen, [X.shape[1], 1], simpleModel)
 trainModel(model, X, groups, environment, trainTest, './model.pt', Niter=10000, doPrint=True, Nphen=Nphen, learningRate=1e-5, noiseLevel=0.005)
 ```
 
-This code results in the final model being trained and saved as a PyTorch model file in ./model.pt. 
+This code results in the final model being trained and saved as a PyTorch model file in ./model.pt. An example model is saved in "./data/examples/mode.pt". 
 
 
 
