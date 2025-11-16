@@ -15,15 +15,15 @@ The H2Opt software requires Python3 with the packages PyTorch and numpy.
 Let n be the number of individuals. Define "traits" as an n by k PyTorch tensor of phenotypes. Define "groups" as a length n integer array representing genetically related groups such as clones. Define "environments" as an n by g matrix of categorical variables, where g is the number of environmental variables (and can be zero). Then, the heritability can be calculated as follows in Python. 
 
 ```python
-from shared import cheapHeritability
-H = cheapHeritability(traits, groups, envirements)
+from shared import ANOVAHeritability
+H = ANOVAHeritability(traits, groups, envirements)
 ```
 Specifically, if groups represent clones, this directly gives the broad-sense heritability. If groups have genetic relatedness Gamma, then narrow-sense heritability is H / Gamma. 
 A full example of calculating the heritability of the first 10 wavelengths in our sorghum hyperspectral measurement dataset is given below.
 ```python
 import numpy as np
 import torch
-from h2opt import loadnpz, cheapHeritability
+from h2opt import loadnpz, ANOVAHeritability
 
 
 X = np.concatenate((loadnpz('./data/examples/X_file1.npz'), loadnpz('./data/examples/X_file2.npz')), axis=0)
@@ -31,7 +31,7 @@ groups = loadnpz('./data/examples/genotypes.npz')
 envirement = loadnpz('./data/examples/envirement.npz')
 X_example = torch.tensor(X[:, :10]).float()
 
-heritability = cheapHeritability(X_example, groups, envirement)
+heritability = ANOVAHeritability(X_example, groups, envirement)
 ```
 The output "heritability" is the tensor of the 10 heritability values tensor([0.0530, 0.0322, 0.0545, 0.0715, 0.0774, 0.0755, 0.0564, 0.0422, 0.0479, 0.0503]). 
 As a minor aside, the measurement data X is split into two files due to GitHub file size limits. 
