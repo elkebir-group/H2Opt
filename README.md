@@ -45,7 +45,7 @@ trainModel(model, X, groups, environment, trainTest, modelFile)
 Additional optional parameters include the following. ``Nphen`` is the number of phenotypes to extract, which is denoted by k in the H2Opt manuscript. By default, Nphen = 1. "learningRate" is the Pytorch learning rate with a default of 1e-4. noiseLevel is data augmentation-based regularization level with a default value of 0.1. The below code sets these values. 
 ```python
 from shared import trainModel
-trainModel(model, X, groups, envirement, trainTest, modelFile, Nphen=Nphen, learningRate=learningRate, noiseLevel=noiseLevel)
+trainModel(model, X, groups, environment, trainTest, modelFile, Nphen=Nphen, learningRate=learningRate, noiseLevel=noiseLevel)
 ```
 Below is a full example of training a linear model to extract 10 synthetic traits on our sorghum hyperspectral measurement dataset. 
 ```python
@@ -54,13 +54,13 @@ from h2opt import loadnpz, trainModel, multiConv, simpleModel
 
 X = np.concatenate((loadnpz('./data/examples/X_file1.npz'), loadnpz('./data/examples/X_file2.npz')), axis=0)
 groups = loadnpz('./data/examples/genotypes.npz')
-envirement = loadnpz('./data/examples/envirement.npz')
+environment = loadnpz('./data/examples/environment.npz')
 trainTest = np.zeros(genotype.shape[0], dtype=int)
 
 Nphen = 10
 model = multiConv(Nphen, [X.shape[1], 1], simpleModel)
 
-trainModel(model, X, groups, envirement, trainTest, './model.pt', Niter=10000, doPrint=True, Nphen=Nphen, learningRate=1e-5, noiseLevel=0.005)
+trainModel(model, X, groups, environment, trainTest, './model.pt', Niter=10000, doPrint=True, Nphen=Nphen, learningRate=1e-5, noiseLevel=0.005)
 ```
 
 This code results in the final model being trained and saved as a PyTorch model file in ./model.pt. 
