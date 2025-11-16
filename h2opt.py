@@ -1326,11 +1326,59 @@ def trainModel(model, X, names, envirement, trainTest2, modelName, Niter = 10000
 
 
 
+def encodeValues(X):
+
+
+    modelName = './data/plant/models/autoencode_2.pt'
+    model = torch.load(modelName)
+    measure = loadnpz('./data/plant/processed/sor/X.npz')
+    measure = torch.tensor(measure).float()
+    Y = model.encode(measure)
+    Y = Y.data.numpy()
+
+    means1 = np.mean(Y, axis=0)
+    Y = Y - means1.reshape((1, -1))
+    stds1 = np.mean(Y ** 2, axis=0) ** 0.5
+
+    X = X - np.mean(X, axis=0).reshape((1, -1))
+    X = X / (np.mean(X**2, axis=0).reshape((1, -1)) ** 0.5)
+
+    X_latent = X * stds1.reshape((1, -1))
+    X_latent = X_latent + means1.reshape((1, -1))
+
+
+    X_final = model.decode(torch.tensor(X_latent[:, :5]).float())
+    X_final = X_final.data.numpy()
+
+    return X_final
 
 
 
+def saveSimLatentExample():
 
+    np.random.seed(0)
 
+    simulationName = 'sameHeritSep100'
+    dataFolder =  './data/plant/simulations/simPhen/' + simulationName + '/' + str(0) 
+
+    dataFile = dataFolder + '/'
+    files1 = os.listdir(dataFolder)
+    for file1 in files1:
+        if 'Simulated_Data_' in file1:
+            dataFile = dataFile + file1
+
+    X = np.loadtxt(dataFile, dtype=str)
+
+    X = X[1:, 1:-1].astype(float)
+
+    X_latent = np.random.normal(size= X.shape[0]*5 ).reshape((  X.shape[0], 5 ))
+    perm1 = np.random.permutation(5)
+    perm1 = perm1[:X.shape[1]]
+    X_latent[:, perm1] = X
+
+    np.savez_compressed('./data/examples/simulatedLatentTraits.npz', X_latent)
+
+#saveSimLatentExample()
 
 
 
