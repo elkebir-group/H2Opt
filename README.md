@@ -42,7 +42,7 @@ Let n be the number of individuals. Define "groups" as a length n integer array 
 from shared import trainModel
 trainModel(model, X, groups, environment, trainTest, modelFile)
 ```
-Additional optional parameters include the following. ``Nphen`` is the number of phenotypes to extract, denoted by k in kH2Opt formulas. By default, Nphen = 1. "learningRate" is the Pytorch learning rate with a default of 1e-4. noiseLevel is data augmentation-based regularization level with a default value of 0.1. The below code sets these values. 
+Additional optional parameters include the following. ``Nphen`` is the number of phenotypes to extract, which is denoted by k in the H2Opt manuscript. By default, Nphen = 1. "learningRate" is the Pytorch learning rate with a default of 1e-4. noiseLevel is data augmentation-based regularization level with a default value of 0.1. The below code sets these values. 
 ```python
 from shared import trainModel
 trainModel(model, X, groups, envirement, trainTest, modelFile, Nphen=Nphen, learningRate=learningRate, noiseLevel=noiseLevel)
